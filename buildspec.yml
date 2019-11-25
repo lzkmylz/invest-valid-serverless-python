@@ -1,0 +1,22 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.7
+      nodejs: 10
+    commands:
+      - echo install serverless
+      - npm install -g serverless
+      - echo install npm packages
+      - npm install
+      - echo install python packages
+      - pip install tushare
+      - pip install statsmodels
+  build:
+    commands:
+      - echo Build to CloudFormation
+      - serverless deploy -v -s $ENV_NAME
+  post_build:
+    commands:
+      - echo Deployment completed
