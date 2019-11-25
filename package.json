@@ -1,0 +1,11 @@
+{
+  "name": "invest-valid-serverless-python",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "serverless-domain-manager": "^3.3.0",
+    "serverless-offline": "^5.12.0"
+  }
+}
