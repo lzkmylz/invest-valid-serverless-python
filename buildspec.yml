@@ -6,8 +6,6 @@ phases:
       python: 3.7
       nodejs: 10
     commands:
-      - echo install serverless
-      - npm install -g serverless
       - echo install npm packages
       - npm install
       - echo install python packages
