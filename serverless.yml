@@ -10,6 +10,15 @@ provider:
 
 plugins:
   - serverless-offline
+  - serverless-domain-manager
+
+custom:
+  customDomain:
+    domainName: api.investvalid.com
+    basePath: 'v1'
+    stage: prod
+    certificateName: investvalid.com
+    createRoute53Record: true
 
 functions:
   similarity_compute:
