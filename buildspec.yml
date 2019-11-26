@@ -7,7 +7,8 @@ phases:
       nodejs: 10
     commands:
       - echo install npm packages
-      - npm install
+      - npm install -g yarn
+      - yarn install
       - echo install python packages
       - pip install tushare
       - pip install statsmodels
