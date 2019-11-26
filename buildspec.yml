@@ -8,6 +8,7 @@ phases:
     commands:
       - echo install npm packages
       - npm install -g yarn
+      - npm install -g serverless
       - yarn install
       - echo install python packages
       - pip install tushare
