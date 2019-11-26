@@ -10,7 +10,6 @@ provider:
 
 plugins:
   - serverless-offline
-  - serverless-domain-manager
 
 functions:
   similarity_compute:
