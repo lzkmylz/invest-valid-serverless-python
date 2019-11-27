@@ -40,13 +40,15 @@ def similarity_compute(event, context):
         }
         return response
 
-    model = sm.OLS(stock1_prices, stock2_prices)
+    x = sm.add_constant(stock1_prices)
+    y = stock2_prices
+    model = sm.OLS(y, x)
     results = model.fit()
     params = results.params
     alpha = params[0]
     beta = params[1]
-    sigma = np.sum(stock1_prices - (stock2_prices * alpha + beta))
-    score = (1 - sigma / np.mean(stock2_prices)) * 100
+    sigma = np.abs(np.mean(stock1_prices - (stock2_prices * alpha + beta)))
+    score = (1 - sigma / np.mean(stock1_prices)) * 100
 
     response = {
         "statusCode": 200,
