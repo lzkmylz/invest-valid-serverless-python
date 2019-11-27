@@ -12,6 +12,10 @@ plugins:
   - serverless-offline
   - serverless-python-requirements
 
+custom:
+  pythonRequirements:
+    dockerizePip: true
+
 functions:
   similarity_compute:
     handler: Statistics.similarity_compute.similarity_compute
