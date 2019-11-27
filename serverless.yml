@@ -24,6 +24,8 @@ functions:
   similarity_compute:
     handler: similarity_compute.similarity_compute
     module: Statistics
+    environment:
+      TUSHARE_TOKEN: ${env:TUSHARE_TOKEN}
     events:
       - http:
           path: statistics/similarity_compute
