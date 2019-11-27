@@ -11,6 +11,7 @@ phases:
       - npm install -g serverless
       - yarn install
       - echo install docker
+      - yum update
       - yum install -y yum-utils device-mapper-persistent-data lvm2 selinux-policy selinux-policy-base selinux-policy-targeted
       - yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
       - yum list docker-ce --showduplicates | sort -r
