@@ -10,6 +10,7 @@ provider:
 
 plugins:
   - serverless-offline
+  - serverless-python-requirements
 
 functions:
   similarity_compute:
