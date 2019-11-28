@@ -19,6 +19,16 @@ custom:
   pythonRequirements:
     dockerizePip: true
     slim: true
+  allowedHeaders:
+    - Accept
+    - Content-Type
+    - Content-Length
+    - Authorization
+    - X-Amz-Date
+    - X-Api-key
+    - X-Amz-Security-Token
+    - X-Amz-User-Agent
+    - Access-Control-Allow-Origin
 
 functions:
   similarity_compute:
@@ -30,4 +40,6 @@ functions:
       - http:
           path: statistics/similarity_compute
           method: post
-          cors: true
+          cors:
+            origin: '*'
+            headers: ${self:custom.allowedHeaders}
