@@ -36,6 +36,10 @@ def similarity_compute(event, context):
             "statusCode": 200,
             "body": json.dumps({
                 "score": 0
+            }),
+            "headers": json.dumps({
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Credentials': True
             })
         }
         return response
