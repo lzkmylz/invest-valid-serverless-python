@@ -38,8 +38,8 @@ def similarity_compute(event, context):
                 "score": 0
             }),
             "headers": json.dumps({
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Credentials': True
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Credentials": True
             })
         }
         return response
@@ -60,8 +60,8 @@ def similarity_compute(event, context):
             "score": score
         }),
         "headers": json.dumps({
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Credentials': True
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": True
         })
     }
 
