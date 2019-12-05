@@ -55,6 +55,17 @@ functions:
             origin: '*'
             headers: ${self:custom.allowedHeaders}
 
+  create_copora:
+    handler: add_copora.addcopora
+    module: Robot.CoporaCURD
+    events:
+      - http:
+          path: robot/add_copora
+          method: post
+          cors:
+            origin: '*'
+            headers: ${self:custom.allowedHeaders}
+
 resources:
   Resources:
     CoporaDynamoDbTable:
