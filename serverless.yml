@@ -55,12 +55,6 @@ resources:
             AttributeType: S
           - AttributeName: id
             AttributeType: S
-          - AttributeName: use_vector
-            AttributeType: S
-          - AttributeName: question
-            AttributeType: S
-          - AttributeName: answer
-            AttributeType: S
         KeySchema:
           - AttributeName: corpora_id
             KeyType: HASH
