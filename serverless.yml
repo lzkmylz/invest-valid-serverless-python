@@ -57,7 +57,7 @@ functions:
 
   create_copora:
     handler: add_copora.addcopora
-    module: Robot.CoporaCURD
+    module: Robot/CoporaCURD
     events:
       - http:
           path: robot/add_copora
