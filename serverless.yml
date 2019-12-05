@@ -51,6 +51,10 @@ resources:
       DeletionPolicy: Retain
       Properties:
         AttributeDefinitions:
+          - AttributeName: corpora_id
+            AttributeType: S
+          - AttributeName: id
+            AttributeType: S
           - AttributeName: use_vector
             AttributeType: S
           - AttributeName: question
