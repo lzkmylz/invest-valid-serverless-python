@@ -22,6 +22,7 @@ def add_copora(event, context):
         'corpora_id': str(data['corpora_id']),
         'question': str(data['question']),
         'answer': str(data['answer']),
+        'vector': str(data['vector']),
         'createdAt': timestamp,
         'updatedAt': timestamp,
     }
