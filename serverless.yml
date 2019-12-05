@@ -7,7 +7,7 @@ provider:
   memorySize: 256
   timeout: 300
   environment:
-    COPORA_TABLE: ${self:custom.coporaTable}
+    COPORA_TABLE: ${self:service}-copora-${opt:stage}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -27,8 +27,6 @@ package:
   individually: true
 
 custom:
-  coporaTable:
-    Ref: CoporaDynamoDbTable
   pythonRequirements:
     dockerizePip: true
     slim: true
