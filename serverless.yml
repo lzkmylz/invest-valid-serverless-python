@@ -44,7 +44,7 @@ custom:
 functions:
   similarity_compute:
     handler: similarity_compute.similarity_compute
-    module: Statistics
+    module: statistics
     environment:
       TUSHARE_TOKEN: ${env:TUSHARE_TOKEN}
     events:
@@ -57,7 +57,7 @@ functions:
 
   create_copora:
     handler: add_copora.addcopora
-    module: Robot/CoporaCURD
+    module: robot_coporaCURD
     events:
       - http:
           path: robot/add_copora
