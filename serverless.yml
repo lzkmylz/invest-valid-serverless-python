@@ -17,8 +17,7 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource:
-        "Fn::GetAtt": [ CoporaDynamoDbTable, Arn ]
+      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.COPORA_TABLE}"
 
 plugins:
   - serverless-offline
