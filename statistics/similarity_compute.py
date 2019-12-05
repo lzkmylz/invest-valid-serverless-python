@@ -9,7 +9,7 @@ token = os.environ['TUSHARE_TOKEN']
 pro = ts.pro_api(token)
 
 def similarity_compute(event, context):
-    request_data = json.loads(event.body)
+    request_data = json.loads(event.body) # test
     stock1 = request_data['stock1']
     stock2 = request_data['stock2']
     start_date = request_data['startDate']
