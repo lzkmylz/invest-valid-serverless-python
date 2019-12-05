@@ -3,10 +3,21 @@ service: invest-valid-serverless-python
 provider:
   name: aws
   runtime: python3.7
-  stage: dev
   region: ap-southeast-1
   memorySize: 256
   timeout: 300
+  environment:
+    COPORA_TABLE: ${self:service}-copora-${opt:stage}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.COPORA_TABLE}"
 
 plugins:
   - serverless-offline
@@ -63,4 +74,4 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-        TableName: ${self:service}-copora-${opt:stage, self:provider.stage}
+        TableName: ${self:service}-copora-${opt:stage}
