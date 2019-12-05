@@ -43,3 +43,26 @@ functions:
           cors:
             origin: '*'
             headers: ${self:custom.allowedHeaders}
+
+resources:
+  Resources:
+    CoporaDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: use_vector
+            AttributeType: S
+          - AttributeName: question
+            AttributeType: S
+          - AttributeName: answer
+            AttributeType: S
+        KeySchema:
+          - AttributeName: corpora_id
+            KeyType: HASH
+          - AttributeName: id
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:service}-copora-${opt:stage, self:provider.stage}
