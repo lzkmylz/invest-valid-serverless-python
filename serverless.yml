@@ -7,7 +7,7 @@ provider:
   memorySize: 256
   timeout: 300
   environment:
-    COPORA_TABLE: ${self:service}-copora-${opt:stage}
+    COPORA_TABLE: ${self:custom.coporaTable}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -17,7 +17,8 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.COPORA_TABLE}"
+      Resource:
+        "Fn::GetAtt": [ CoporaDynamoDbTable, Arn ]
 
 plugins:
   - serverless-offline
@@ -27,6 +28,8 @@ package:
   individually: true
 
 custom:
+  coporaTable:
+    Ref: CoporaDynamoDbTable
   pythonRequirements:
     dockerizePip: true
     slim: true
