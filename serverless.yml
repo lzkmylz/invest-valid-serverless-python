@@ -77,9 +77,9 @@ functions:
     handler: compute_vector.compute_vector
     module: robot_compute_vector
     events:
-      -http:
-        path: robot/compute_vector
-        method: post
+      - http:
+          path: robot/compute_vector
+          method: post
           cors:
             origin: '*'
             headers: ${self:custom.allowedHeaders}
