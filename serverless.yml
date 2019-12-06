@@ -8,7 +8,7 @@ provider:
   timeout: 300
   environment:
     COPORA_TABLE: ${self:service}-copora-${opt:stage}
-    ADD_COPORA: ${self:custom.addCopora}
+    ADD_COPORA: ${self:service}-${opt:stage}-create_copora
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -35,8 +35,6 @@ custom:
   pythonRequirements:
     dockerizePip: true
     slim: true
-  addCopora:
-    Ref: similarity_compute
   allowedHeaders:
     - Accept
     - Content-Type
