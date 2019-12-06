@@ -30,7 +30,11 @@ def add_copora(event, context):
     table.put_item(Item=item)
     response = {
         "statusCode": 200,
-        "body": json.dumps(item)
+        "body": json.dumps(item),
+        "headers": {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": "true"
+        }
     }
 
     return response

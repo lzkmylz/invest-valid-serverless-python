@@ -8,7 +8,12 @@ provider:
   timeout: 300
   environment:
     COPORA_TABLE: ${self:service}-copora-${opt:stage}
+    ADD_COPORA: ${self:custom.addCopora}
   iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - lambda:InvokeFunction
+      Resource: "*"
     - Effect: Allow
       Action:
         - dynamodb:Query
@@ -30,6 +35,8 @@ custom:
   pythonRequirements:
     dockerizePip: true
     slim: true
+  addCopora:
+    Ref: similarity_compute
   allowedHeaders:
     - Accept
     - Content-Type
@@ -62,6 +69,17 @@ functions:
       - http:
           path: robot/add_copora
           method: post
+          cors:
+            origin: '*'
+            headers: ${self:custom.allowedHeaders}
+
+  compute_vector:
+    handler: compute_vector.compute_vector
+    module: robot_compute_vector
+    events:
+      -http:
+        path: robot/compute_vector
+        method: post
           cors:
             origin: '*'
             headers: ${self:custom.allowedHeaders}
