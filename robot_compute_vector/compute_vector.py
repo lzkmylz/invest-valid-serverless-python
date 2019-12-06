@@ -1,3 +1,7 @@
+try:
+  import unzip_requirements
+except ImportError:
+  pass
 import tensorflow as tf
 import tensorflow_hub as hub
 import sentencepiece as spm

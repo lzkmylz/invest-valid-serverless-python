@@ -2,7 +2,7 @@ service: invest-valid-serverless-python
 
 provider:
   name: aws
-  runtime: python3.6
+  runtime: python3.7
   region: ap-southeast-1
   memorySize: 256
   timeout: 300
@@ -34,6 +34,7 @@ package:
 custom:
   pythonRequirements:
     dockerizePip: true
+    zip: true
     slim: true
   allowedHeaders:
     - Accept
