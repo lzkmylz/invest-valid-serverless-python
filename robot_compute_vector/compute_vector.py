@@ -35,7 +35,7 @@ def compute_vector(event, context):
 
     aws_lambda.invoke(
         FunctionName=os.environ['COMPUTE_VECTOR'],
-        Payload=req_body,
+        Payload=json.dumps(req_body),
         InvocationType='event'
     )
 
