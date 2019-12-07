@@ -53,7 +53,7 @@ def compute_vector(event, context):
 
         vector = np.array(message_embeddings).tolist()
 
-    if data['method'] == 'add_copora':
+    if data['method'] == 'add_corpora':
         # run lambda function add_copora
         body = json.dumps({
             "question": data['question'],
