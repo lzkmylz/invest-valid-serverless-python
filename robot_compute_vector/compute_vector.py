@@ -17,30 +17,30 @@ def compute_vector(event, context):
         logging.error("Validation Failed")
         raise Exception("Couldn't compute vector.")
 
-    id = uuid.uuid4()
+    event_id = uuid.uuid4()
 
     if data['method'] == "add_corpora":
         req_body = {
             "question": data['question'],
             "answer": data['answer'],
             "corpora_id": data['corpora_id'],
-            "id": id
+            "id": str(event_id)
         }
     if data['method'] == "compute_answer":
         req_body = {
             "question": data['question'],
             "corpora_id": data['corpora_id'],
-            "id": id
+            "id": str(event_id)
         }
 
     aws_lambda.invoke(
         FunctionName=os.environ['COMPUTE_VECTOR'],
-        Payload=bytes(req_body),
+        Payload=req_body,
         InvocationType='event'
     )
 
     res_body = {
-        "request_id": id
+        "request_id": event_id
     }
 
     res = {
