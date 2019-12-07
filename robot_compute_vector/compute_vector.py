@@ -18,17 +18,17 @@ def compute_vector(event, context):
 
     id = uuid.uuid4()
 
-    if data['method'] == "add_copora":
+    if data['method'] == "add_corpora":
         req_body = {
             "question": data['question'],
             "answer": data['answer'],
-            "copora_id": data['copora_id'],
+            "corpora_id": data['corpora_id'],
             "id": id
         }
     if data['method'] == "compute_answer":
         req_body = {
             "question": data['question'],
-            "copora_id": data['copora_id'],
+            "corpora_id": data['corpora_id'],
             "id": id
         }
 
