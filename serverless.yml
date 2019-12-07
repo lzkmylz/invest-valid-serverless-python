@@ -5,10 +5,10 @@ provider:
   runtime: python3.6
   region: ap-southeast-1
   memorySize: 256
-  timeout: 300
+  timeout: 30
   environment:
     COPORA_TABLE: ${self:service}-copora-${opt:stage}
-    ADD_COPORA: ${self:service}-${opt:stage}-create_copora
+    ADD_COPORA: ${self:service}-${opt:stage}-add_copora
   iamRoleStatements:
     - Effect: Allow
       Action:
