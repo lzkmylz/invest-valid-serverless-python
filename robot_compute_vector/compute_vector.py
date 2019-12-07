@@ -11,7 +11,7 @@ import logging
 import boto3
 import os
 
-aws_lambda = boto3.resource('lambda')
+aws_lambda = boto3.client('lambda')
 
 
 def compute_vector(event, context):
