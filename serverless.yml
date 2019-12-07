@@ -9,6 +9,7 @@ provider:
   environment:
     COPORA_TABLE: ${self:service}-copora-${opt:stage}
     ADD_COPORA: ${self:service}-${opt:stage}-add_copora
+    COMPUTE_VECTOR: ${self:service}-${opt:stage}-compute_vector_impl
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -64,18 +65,15 @@ functions:
   add_copora:
     handler: add_copora.add_copora
     module: robot_coporaCURD
-    events:
-      - http:
-          path: robot/add_copora
-          method: post
-          cors:
-            origin: '*'
-            headers: ${self:custom.allowedHeaders}
+
+  compute_vector_impl:
+    handler: compute_vector.compute_vector
+    module: robot_compute_vector_impl
+    memorySize: 3008
 
   compute_vector:
     handler: compute_vector.compute_vector
     module: robot_compute_vector
-    memorySize: 3008
     events:
       - http:
           path: robot/compute_vector

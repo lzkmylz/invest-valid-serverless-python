@@ -22,7 +22,7 @@ def add_copora(event, context):
     timestamp = str(datetime.utcnow().timestamp())
     table = dynamodb.Table(os.environ['COPORA_TABLE'])
     item = {
-        'id': str(uuid.uuid4()),
+        'id': str(data['id']),
         'corpora_id': str(data['corpora_id']),
         'question': str(data['question']),
         'answer': str(data['answer']),
