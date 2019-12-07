@@ -24,12 +24,14 @@ def compute_vector(event, context):
             "question": data['question'],
             "answer": data['answer'],
             "corpora_id": data['corpora_id'],
+            "method": data['method'],
             "id": str(event_id)
         }
     if data['method'] == "compute_answer":
         req_body = {
             "question": data['question'],
             "corpora_id": data['corpora_id'],
+            "method": data['method'],
             "id": str(event_id)
         }
 
