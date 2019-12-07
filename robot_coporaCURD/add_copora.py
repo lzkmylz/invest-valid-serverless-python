@@ -13,7 +13,7 @@ dynamodb = boto3.resource('dynamodb')
 
 
 def add_copora(event, context):
-    data = json.loads(event)
+    data = event
     if 'question' not in data or 'answer' not in data or 'vector' not in data or 'corpora_id' not in data:
         logging.error("Validation Failed")
         print(data)

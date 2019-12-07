@@ -14,10 +14,7 @@ aws_lambda = boto3.client('lambda')
 
 
 def compute_vector(event, context):
-    print(event)
-    print(type(event))
-    data = json.loads(event)
-    print(data)
+    data = event
 
     question = data['question']
     module = hub.Module("https://tfhub.dev/google/universal-sentence-encoder-lite/2")
