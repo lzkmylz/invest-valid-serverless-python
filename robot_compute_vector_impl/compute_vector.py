@@ -66,7 +66,7 @@ def compute_vector(event, context):
         aws_lambda.invoke(
             FunctionName=os.environ['ADD_COPORA'],
             Payload=body,
-            InvocationType='event'
+            InvocationType='Event'
         )
     else:
         # run lambda function compute answer
