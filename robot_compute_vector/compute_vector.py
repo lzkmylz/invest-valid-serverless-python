@@ -13,6 +13,7 @@ import os
 
 aws_lambda = boto3.resource('lambda')
 
+
 def compute_vector(event, context):
     data = json.loads(event['body'])
     if 'question' not in data or 'method' not in data:
@@ -21,6 +22,7 @@ def compute_vector(event, context):
 
     question = data['question']
     module = hub.Module("https://tfhub.dev/google/universal-sentence-encoder-lite/2")
+    '''
     input_placeholder = tf.sparse_placeholder(tf.int64, shape=[None, None])
     encodings = module(
         inputs=dict(
@@ -86,6 +88,16 @@ def compute_vector(event, context):
             "question": data['question'],
             "vector": vector
         })
+    '''
+    res = {
+        "statusCode": 200,
+        "body": "running right!",
+        "headers": {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": "true"
+        }
+    }
+    return res
 
 
 

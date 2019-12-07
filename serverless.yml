@@ -61,7 +61,7 @@ functions:
             origin: '*'
             headers: ${self:custom.allowedHeaders}
 
-  create_copora:
+  add_copora:
     handler: add_copora.add_copora
     module: robot_coporaCURD
     events:
