@@ -14,6 +14,7 @@ aws_lambda = boto3.client('lambda')
 
 
 def compute_vector(event, context):
+    print(event)
     data = json.loads(event.get('payload'))
 
     question = data['question']
