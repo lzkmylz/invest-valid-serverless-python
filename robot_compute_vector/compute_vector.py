@@ -40,7 +40,7 @@ def compute_vector(event, context):
     )
 
     res_body = {
-        "request_id": event_id
+        "request_id": str(event_id)
     }
 
     res = {
