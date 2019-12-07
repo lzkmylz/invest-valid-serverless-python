@@ -75,6 +75,7 @@ functions:
   compute_vector:
     handler: compute_vector.compute_vector
     module: robot_compute_vector
+    memorySize: 3008
     events:
       - http:
           path: robot/compute_vector
