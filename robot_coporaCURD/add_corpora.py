@@ -12,15 +12,15 @@ import boto3
 dynamodb = boto3.resource('dynamodb')
 
 
-def add_copora(event, context):
+def add_corpora(event, context):
     data = event
     if 'question' not in data or 'answer' not in data or 'vector' not in data or 'corpora_id' not in data:
         logging.error("Validation Failed")
         print(data)
-        raise Exception("Couldn't create the copora item.")
+        raise Exception("Couldn't create the corpora item.")
 
     timestamp = str(datetime.utcnow().timestamp())
-    table = dynamodb.Table(os.environ['COPORA_TABLE'])
+    table = dynamodb.Table(os.environ['CORPORA_TABLE'])
     item = {
         'id': str(data['id']),
         'corpora_id': str(data['corpora_id']),

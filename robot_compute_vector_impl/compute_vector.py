@@ -54,17 +54,17 @@ def compute_vector(event, context):
         vector = np.array(message_embeddings).tolist()
 
     if data['method'] == 'add_corpora':
-        # run lambda function add_copora
+        # run lambda function add_corpora
         body = json.dumps({
             "question": data['question'],
             "answer": data['answer'],
-            "copora_id": data['copora_id'],
+            "corpora_id": data['corpora_id'],
             "id": data['id'],
             "vector": vector
         })
-        print("add copora function name: {}".format(os.environ['ADD_COPORA']))
+        print("add corpora function name: {}".format(os.environ['ADD_CORPORA']))
         aws_lambda.invoke(
-            FunctionName=os.environ['ADD_COPORA'],
+            FunctionName=os.environ['ADD_CORPORA'],
             Payload=body,
             InvocationType='Event'
         )

@@ -7,8 +7,8 @@ provider:
   memorySize: 256
   timeout: 30
   environment:
-    COPORA_TABLE: ${self:service}-copora-${opt:stage}
-    ADD_COPORA: ${self:service}-${opt:stage}-add_copora
+    CORPORA_TABLE: ${self:service}-corpora-${opt:stage}
+    ADD_CORPORA: ${self:service}-${opt:stage}-add_corpora
     COMPUTE_VECTOR: ${self:service}-${opt:stage}-compute_vector_impl
   iamRoleStatements:
     - Effect: Allow
@@ -23,7 +23,7 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.COPORA_TABLE}"
+      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.CORPORA_TABLE}"
 
 plugins:
   - serverless-offline
@@ -62,9 +62,9 @@ functions:
             origin: '*'
             headers: ${self:custom.allowedHeaders}
 
-  add_copora:
-    handler: add_copora.add_copora
-    module: robot_coporaCURD
+  add_corpora:
+    handler: add_corpora.add_corpora
+    module: robot_corporaCURD
 
   compute_vector_impl:
     handler: compute_vector.compute_vector
@@ -85,7 +85,7 @@ functions:
 
 resources:
   Resources:
-    CoporaDynamoDbTable:
+    CorporaDynamoDbTable:
       Type: 'AWS::DynamoDB::Table'
       DeletionPolicy: Retain
       Properties:
@@ -102,4 +102,4 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-        TableName: ${self:service}-copora-${opt:stage}
+        TableName: ${self:service}-corpora-${opt:stage}
