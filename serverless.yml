@@ -70,6 +70,7 @@ functions:
     handler: compute_vector.compute_vector
     module: robot_compute_vector_impl
     memorySize: 3008
+    timeout: 300
 
   compute_vector:
     handler: compute_vector.compute_vector

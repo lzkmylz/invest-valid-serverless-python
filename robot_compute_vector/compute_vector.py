@@ -1,7 +1,7 @@
 try:
-  import unzip_requirements
+    import unzip_requirements
 except ImportError:
-  pass
+    pass
 import boto3
 import json
 import logging
@@ -9,6 +9,7 @@ import os
 import uuid
 
 aws_lambda = boto3.client('lambda')
+
 
 def compute_vector(event, context):
     data = json.loads(event['body'])
@@ -34,7 +35,7 @@ def compute_vector(event, context):
 
     aws_lambda.invoke(
         FunctionName=os.environ['COMPUTE_VECTOR'],
-        Payload=req_body,
+        Payload=bytes(req_body),
         InvocationType='event'
     )
 

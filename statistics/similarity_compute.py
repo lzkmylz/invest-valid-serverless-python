@@ -1,7 +1,7 @@
 try:
-  import unzip_requirements
+    import unzip_requirements
 except ImportError:
-  pass
+    pass
 import json
 import os
 import tushare as ts
@@ -11,6 +11,7 @@ import statsmodels.api as sm
 
 token = os.environ['TUSHARE_TOKEN']
 pro = ts.pro_api(token)
+
 
 def similarity_compute(event, context):
     request_data = json.loads(event['body'])

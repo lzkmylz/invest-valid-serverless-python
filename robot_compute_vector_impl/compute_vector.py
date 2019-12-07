@@ -1,7 +1,7 @@
 try:
-  import unzip_requirements
+    import unzip_requirements
 except ImportError:
-  pass
+    pass
 import tensorflow as tf
 import tensorflow_hub as hub
 import sentencepiece as spm
@@ -63,9 +63,9 @@ def compute_vector(event, context):
             "vector": vector
         })
         print("add copora function name: {}".format(os.environ['ADD_COPORA']))
-        response = aws_lambda.invoke(
+        aws_lambda.invoke(
             FunctionName=os.environ['ADD_COPORA'],
-            Payload=body,
+            Payload=bytes(body),
             InvocationType='event'
         )
     else:
