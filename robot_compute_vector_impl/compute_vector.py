@@ -76,3 +76,8 @@ def compute_vector(event, context):
             "corpora_id": data['corpora_id'],
             "vector": vector
         })
+        aws_lambda.invoke(
+            FunctionName=os.environ['COMPUTE_ANSWER'],
+            Payload=body,
+            InvocationType='Event'
+        )

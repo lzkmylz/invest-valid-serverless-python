@@ -11,6 +11,7 @@ provider:
     ADD_CORPORA: ${self:service}-${opt:stage}-add_corpora
     COMPUTE_VECTOR: ${self:service}-${opt:stage}-compute_vector_impl
     ANSWER_TABLE: ${self:service}-answer-${opt:stage}
+    COMPUTE_ANSWER: ${self:service}-${opt:stage}-compute_answer
   iamRoleStatements:
     - Effect: Allow
       Action:
