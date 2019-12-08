@@ -77,7 +77,7 @@ functions:
   compute_answer:
     handler: compute_answer.compute_answer
     module: robot_compute_answer
-    memorySize: 3008
+    memorySize: 512
     timeout: 300
 
   compute_vector:

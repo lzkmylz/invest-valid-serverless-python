@@ -9,10 +9,10 @@ import os
 import time
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
-from boto3.dynamodb.conditions import Key, Attr
+from boto3.dynamodb.conditions import Key
 dynamodb = boto3.resource('dynamodb')
 
-def compute_vector(event, context):
+def compute_answer(event, context):
     data = event
 
     request_id = data['id']
@@ -23,7 +23,7 @@ def compute_vector(event, context):
     print(vector.size())
 
     corpora_table = dynamodb.Table(os.environ['CORPORA_TABLE'])
-    response = corpora_table.scan(FilterExpression=Attr('copora_id').eq(corpora_id))
+    response = corpora_table.query(KeyConditionExpression=Key('copora_id').eq(corpora_id))
     items = response['Items']
     print(items)
 
