@@ -111,7 +111,7 @@ resources:
           - AttributeName: request_id
             AttributeType: S
         KeySchema:
-          - AttributeName: corpora_id
+          - AttributeName: request_id
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
