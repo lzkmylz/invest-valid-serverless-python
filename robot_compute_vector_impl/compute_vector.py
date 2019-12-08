@@ -73,5 +73,6 @@ def compute_vector(event, context):
         body = json.dumps({
             "id": data['id'],
             "question": data['question'],
+            "corpora_id": data['corpora_id'],
             "vector": vector
         })

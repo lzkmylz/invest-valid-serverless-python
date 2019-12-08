@@ -10,6 +10,7 @@ provider:
     CORPORA_TABLE: ${self:service}-corpora-${opt:stage}
     ADD_CORPORA: ${self:service}-${opt:stage}-add_corpora
     COMPUTE_VECTOR: ${self:service}-${opt:stage}-compute_vector_impl
+    ANSWER_TABLE: ${self:service}-answer-${opt:stage}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -69,6 +70,12 @@ functions:
   compute_vector_impl:
     handler: compute_vector.compute_vector
     module: robot_compute_vector_impl
+    memorySize: 3008
+    timeout: 300
+
+  compute_answer:
+    handler: compute_answer.compute_answer
+    module: robot_compute_answer
     memorySize: 3008
     timeout: 300
 
