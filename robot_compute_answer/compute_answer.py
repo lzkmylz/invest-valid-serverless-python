@@ -18,9 +18,9 @@ def compute_answer(event, context):
     request_id = data['id']
     question = data['question']
     corpora_id = data['corpora_id']
-    print(type(data['vector']))
-    vector = np.array(json.dumps(data['vector']))
-    print(vector.size)
+    vector = np.array(json.loads(data['vector']))
+    print("type of vector:")
+    print(type(vector))
 
     corpora_table = dynamodb.Table(os.environ['CORPORA_TABLE'])
     response = corpora_table.query(KeyConditionExpression=Key('corpora_id').eq(corpora_id))
@@ -28,9 +28,8 @@ def compute_answer(event, context):
     print(items)
 
     corpora_vectors = np.zeros((len(items), 512))
-    print(corpora_vectors.size)
     for i in range(len(items)):
-        corpora_vectors[i, :] = np.array(json.dumps(items[i]['vector']))
+        corpora_vectors[i, :] = np.array(json.loads(items[i]['vector']))
     corr = cosine_similarity(corpora_vectors, vector)
     target_ind = np.argmax(corr)
     target_item = items[target_ind]
@@ -44,6 +43,7 @@ def compute_answer(event, context):
         'corpora_question': target_item['question'],
         'ttl': expire_time
     }
+    print("upload item:")
     print(item)
     answer_table.put_item(Item=item)
     print("success write dynamodb table")
