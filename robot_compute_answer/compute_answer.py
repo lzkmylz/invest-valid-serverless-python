@@ -20,7 +20,7 @@ def compute_answer(event, context):
     corpora_id = data['corpora_id']
     print(type(data['vector']))
     vector = np.array(json.dumps(data['vector']))
-    print(vector.size())
+    print(vector.size)
 
     corpora_table = dynamodb.Table(os.environ['CORPORA_TABLE'])
     response = corpora_table.query(KeyConditionExpression=Key('corpora_id').eq(corpora_id))
