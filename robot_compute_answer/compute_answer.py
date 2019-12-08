@@ -28,7 +28,7 @@ def compute_answer(event, context):
     print(items)
 
     corpora_vectors = np.zeros((len(items), 512))
-    print(corpora_vectors.size())
+    print(corpora_vectors.size)
     for i in range(len(items)):
         corpora_vectors[i, :] = np.array(json.dumps(items[i]['vector']))
     corr = cosine_similarity(corpora_vectors, vector)
@@ -44,4 +44,6 @@ def compute_answer(event, context):
         'corpora_question': target_item['question'],
         'ttl': expire_time
     }
+    print(item)
     answer_table.put_item(Item=item)
+    print("success write dynamodb table")
