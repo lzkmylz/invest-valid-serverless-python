@@ -18,7 +18,7 @@ def compute_answer(event, context):
     request_id = data['id']
     question = data['question']
     corpora_id = data['corpora_id']
-    vector = np.array(json.loads(data['vector']))
+    vector = np.array(data['vector'])
     print("type of vector:")
     print(type(vector))
 
@@ -29,6 +29,8 @@ def compute_answer(event, context):
 
     corpora_vectors = np.zeros((len(items), 512))
     for i in range(len(items)):
+        print("corpora_type")
+        print(type(items[i]['vector']))
         corpora_vectors[i, :] = np.array(json.loads(items[i]['vector']))
     corr = cosine_similarity(corpora_vectors, vector)
     target_ind = np.argmax(corr)
