@@ -106,10 +106,10 @@ functions:
     events:
       - http:
           path: robot/query_answer
-            method: post
-            cors:
-              origin: '*'
-              headers: ${self:custom.allowedHeaders}
+          method: post
+          cors:
+            origin: '*'
+            headers: ${self:custom.allowedHeaders}
 
 resources:
   Resources:
