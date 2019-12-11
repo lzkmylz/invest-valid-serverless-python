@@ -18,8 +18,8 @@ def query_answer(event, context):
         response = corpora_table.get_item(Key={
             'request_id': data['request_id']
         })
-        item = response['Item']
-        if len(item) > 0:
+        if 'Item' in response.keys():
+            item = response['Item']
             res = {
                 "statusCode": 200,
                 "body": json.dumps({
