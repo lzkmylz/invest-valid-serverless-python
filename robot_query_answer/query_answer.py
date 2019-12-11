@@ -18,10 +18,13 @@ def query_answer(event, context):
         response = corpora_table.get_item(Key={
             'request_id': data['request_id']
         })
-        print(response)
+        if 'Item' in response.keys():
+            item = response['Item']
+        else:
+            item = "Data not found"
         res = {
             "statusCode": 200,
-            "body": json.dumps(response),
+            "body": json.dumps(item),
             "headers": {
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Credentials": "true"
@@ -30,9 +33,9 @@ def query_answer(event, context):
     except ClientError as e:
         print(e.response['Error']['Message'])
         res = {
-            "statusCode": 404,
+            "statusCode": 500,
             "body": json.dumps({
-                "message": "Answer not found."
+                "message": "Internal Error"
             }),
             "headers": {
                 "Access-Control-Allow-Origin": "*",
