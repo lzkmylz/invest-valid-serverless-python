@@ -39,6 +39,7 @@ provider:
 plugins:
   - serverless-offline
   - serverless-python-requirements
+  - serverless-dynamodb-ttl
 
 package:
   individually: true
@@ -48,6 +49,10 @@ custom:
     dockerizePip: true
     zip: true
     slim: true
+  dynamodb:
+    ttl:
+      - table: ${self:provider.environment.ANSWER_TABLE}
+        field: ttl
   allowedHeaders:
     - Accept
     - Content-Type

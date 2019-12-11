@@ -9,10 +9,11 @@ import boto3
 from boto3.dynamodb.conditions import Key
 dynamodb = boto3.resource('dynamodb')
 
+
 def query_answer(event, context):
     data = json.loads(event['body'])
 
-    corpora_table = dynamodb.Table(os.environ['CORPORA_TABLE'])
+    corpora_table = dynamodb.Table(os.environ['ANSWER_TABLE'])
     key = {
         "request_id": {
             "S": data['request_id']

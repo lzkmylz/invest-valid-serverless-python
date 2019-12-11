@@ -3183,6 +3183,11 @@ seek-bzip@^1.0.5:
   dependencies:
     commander "~2.8.1"
 
+semver-compare@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npm.taobao.org/semver-compare/download/semver-compare-1.0.0.tgz#0dee216a1c941ab37e9efb1788f6afc5ff5537fc"
+  integrity sha1-De4hahyUGrN+nvsXiPavxf9VN/w=
+
 semver-diff@^2.0.0:
   version "2.1.0"
   resolved "https://registry.npm.taobao.org/semver-diff/download/semver-diff-2.1.0.tgz#4bbb8437c8d37e4b0cf1a68fd726ec6d645d6d36"
@@ -3212,6 +3217,13 @@ serverless-domain-manager@^3.3.0:
   dependencies:
     aws-sdk "^2.490.0"
     chalk "^2.4.1"
+
+serverless-dynamodb-ttl@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.npm.taobao.org/serverless-dynamodb-ttl/download/serverless-dynamodb-ttl-0.1.1.tgz#e913a84502f2caedec2c8a5f431778eb7eaf95de"
+  integrity sha1-6ROoRQLyyu3sLIpfQxd4636vld4=
+  dependencies:
+    semver-compare "^1.0.0"
 
 serverless-offline@^5.12.0:
   version "5.12.0"
