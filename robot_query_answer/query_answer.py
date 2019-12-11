@@ -6,7 +6,7 @@ except ImportError:
 import json
 import os
 import boto3
-from boto3.dynamodb.conditions import Key
+from botocore.exceptions import ClientError
 dynamodb = boto3.resource('dynamodb')
 
 
@@ -14,15 +14,11 @@ def query_answer(event, context):
     data = json.loads(event['body'])
 
     corpora_table = dynamodb.Table(os.environ['ANSWER_TABLE'])
-    key = {
-        "request_id": {
-            "S": data['request_id']
-        }
-    }
-    response = corpora_table.get_item(Key=key)
-    print(response)
-
-    if len(response) > 0:
+    try:
+        response = corpora_table.get_item(Key={
+            'request_id': data['request_id']
+        })
+        print(response)
         res = {
             "statusCode": 200,
             "body": json.dumps(response),
@@ -31,7 +27,8 @@ def query_answer(event, context):
                 "Access-Control-Allow-Credentials": "true"
             }
         }
-    else:
+    except ClientError as e:
+        print(e.response['Error']['Message'])
         res = {
             "statusCode": 404,
             "body": json.dumps({
@@ -42,4 +39,5 @@ def query_answer(event, context):
                 "Access-Control-Allow-Credentials": "true"
             }
         }
+
     return res
