@@ -18,23 +18,32 @@ def query_answer(event, context):
         response = corpora_table.get_item(Key={
             'request_id': data['request_id']
         })
-        if 'Item' in response.keys():
-            item = response['Item']
-        else:
-            item = "Data not found"
-        res = {
-            "statusCode": 200,
-            "body": json.dumps({
-                "question": item['question'],
-                "answer": item['answer'],
-                "corpora_question": item['corpora_question'],
-                "request_id": item['request_id']
-            }),
-            "headers": {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Credentials": "true"
+        item = response['Item']
+        if len(item) > 0:
+            res = {
+                "statusCode": 200,
+                "body": json.dumps({
+                    "question": item['question'],
+                    "answer": item['answer'],
+                    "corpora_question": item['corpora_question'],
+                    "request_id": item['request_id']
+                }),
+                "headers": {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Credentials": "true"
+                }
             }
-        }
+        else:
+            res = {
+                "statusCode": 200,
+                "body": json.dumps({
+                    "message": "Data not found"
+                }),
+                "headers": {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Credentials": "true"
+                }
+            }
     except ClientError as e:
         print(e.response['Error']['Message'])
         res = {
