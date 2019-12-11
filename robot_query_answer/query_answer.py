@@ -24,7 +24,12 @@ def query_answer(event, context):
             item = "Data not found"
         res = {
             "statusCode": 200,
-            "body": json.dumps(item),
+            "body": json.dumps({
+                "question": item['question'],
+                "answer": item['answer'],
+                "corpora_question": item['corpora_question'],
+                "request_id": item['request_id']
+            }),
             "headers": {
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Credentials": "true"
