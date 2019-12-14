@@ -2,24 +2,25 @@ from __future__ import absolute_import
 import tushare as ts
 import pandas as pd
 import tensorflow as tf
-import numpy as np
+import boto3
 from datetime import date, datetime, timedelta
 import os
 
 token = os.environ['TUSHARE_TOKEN']
 pro = ts.pro_api(token)
 tf.enable_eager_execution()
+s3 = boto3.resource('s3')
 
 stock_A = "601939.SH"
 stock_H = "00939.HK"
 backword_length = 5
-forword_length = 1
+forword_length = 2
 BATCH_SIZE = 16
 BUFFER_SIZE = 10000
 EPOCHS = 50
 EVALUATION_INTERVAL = 200
 end_date = date.today().strftime("%Y%m%d")
-start_date = datetime.now() - timedelta(days=365)
+start_date = datetime.now() - timedelta(days=700)
 start_date = start_date.strftime("%Y%m%d")
 
 stock_data_A = pro.daily(ts_code=stock_A, start_date=start_date, end_date=end_date)
@@ -78,35 +79,26 @@ for index, row in stock_data_A_frame.iterrows():
                 single_predict.append(0)
         label.append(single_predict)
 
-train_x = data[:TRAIN_SPLIT]
-train_y = label[:TRAIN_SPLIT]
-test_x = data[TRAIN_SPLIT:]
-test_y = label[TRAIN_SPLIT:]
+train_x = data
+train_y = label
 
 train_data_single = tf.data.Dataset.from_tensor_slices((train_x, train_y))
 train_data_single = train_data_single.cache().shuffle(BUFFER_SIZE).batch(1).repeat()
 
-val_data_single = tf.data.Dataset.from_tensor_slices((test_x, test_y))
-val_data_single = val_data_single.batch(BATCH_SIZE).repeat()
-
 # define model
 model = tf.keras.Sequential()
-model.add(tf.keras.layers.LSTM(64, input_shape=(backword_length, 8), return_sequences=True))
+model.add(tf.keras.layers.LSTM(128, input_shape=(backword_length, 8), return_sequences=True))
 model.add(tf.keras.layers.Dropout(0.2))
-model.add(tf.keras.layers.LSTM(128, return_sequences=False))
+model.add(tf.keras.layers.LSTM(256, return_sequences=False))
+model.add(tf.keras.layers.Dropout(0.2))
+model.add(tf.keras.layers.Dense(128, activation="relu"))
 model.add(tf.keras.layers.Dropout(0.2))
 model.add(tf.keras.layers.Dense(forword_length, activation="sigmoid"))
 model.compile(optimizer=tf.keras.optimizers.RMSprop(), loss='mae', metrics=['accuracy'])
 
-for x, y in val_data_single.take(1):
-    x = np.array(x)
-    y = np.array(y)
-    print(x.shape)
-    print(y.shape)
-
 model_history = model.fit(train_data_single, epochs=EPOCHS,
-                          steps_per_epoch=EVALUATION_INTERVAL,
-                          validation_data=val_data_single,
-                          validation_steps=50)
+                          steps_per_epoch=EVALUATION_INTERVAL)
 
-
+current_path = os.getcwd()
+model.save(current_path + "/model.h5", include_optimizer=False)
+s3.meta.client.upload_file(current_path + "/model.h5", 'wyqdatabase', 'model.h5')
