@@ -12,6 +12,7 @@ provider:
     COMPUTE_VECTOR: ${self:service}-${opt:stage}-compute_vector_impl
     ANSWER_TABLE: ${self:service}-answer-${opt:stage}
     COMPUTE_ANSWER: ${self:service}-${opt:stage}-compute_answer
+    SCHEDULED_TRAIN_MODEL: ${self:service}-${opt:stage}-scheduled_train_model
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -65,6 +66,14 @@ custom:
     - Access-Control-Allow-Origin
 
 functions:
+  scheduled_train_model:
+    handler: scheduled_train_model.scheduled_train_model
+    module: dl_gru_ah
+    events:
+      - schedule: rate(1 day)
+  train_gru_model:
+    handler: train_gru_model.train_gru_model
+    module: dl_gru_ah
   similarity_compute:
     handler: similarity_compute.similarity_compute
     module: statistics
