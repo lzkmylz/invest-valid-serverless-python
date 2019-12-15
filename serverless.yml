@@ -144,12 +144,7 @@ functions:
     handler: query_answer.query_answer
     module: robot_query_answer
     events:
-      - http:
-          path: robot/query_answer
-          method: post
-          cors:
-            origin: '*'
-            headers: ${self:custom.allowedHeaders}
+      - schedule: rate(1 day)
 
 resources:
   Resources:

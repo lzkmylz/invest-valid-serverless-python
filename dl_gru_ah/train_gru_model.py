@@ -44,7 +44,7 @@ def train_gru_model(event, context):
     response = predict_table.query(IndexName="stockName", KeyConditionExpression=Key('stock_name').eq(stock_name))
     items = response['Items']
     for i in range(len(items)):
-        if items['trade_date'] == next_trade_date_2:
+        if items[i]['trade_date'] == next_trade_date_2:
             print("already predicted")
             return
 
