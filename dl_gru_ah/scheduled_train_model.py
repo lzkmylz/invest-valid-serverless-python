@@ -21,3 +21,15 @@ def scheduled_train_model(event, context):
             Payload=payload,
             InvocationType='Event'
         )
+
+    res = {
+        "statusCode": 200,
+        "body": json.dumps({
+            "start train all models."
+        }),
+        "headers": {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": "true"
+        }
+    }
+    return res

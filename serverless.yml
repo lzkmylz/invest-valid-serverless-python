@@ -12,7 +12,7 @@ provider:
     COMPUTE_VECTOR: ${self:service}-${opt:stage}-compute_vector_impl
     ANSWER_TABLE: ${self:service}-answer-${opt:stage}
     COMPUTE_ANSWER: ${self:service}-${opt:stage}-compute_answer
-    SCHEDULED_TRAIN_MODEL: ${self:service}-${opt:stage}-scheduled_train_model
+    SCHEDULED_TRAIN_MODEL: ${self:service}-${opt:stage}-train_gru_model
     GRU_PREDICT_TABLE: ${self:service}-gru-predict-${opt:stage}
   iamRoleStatements:
     - Effect: Allow

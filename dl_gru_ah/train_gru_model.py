@@ -135,14 +135,14 @@ def train_gru_model(event, context):
         "id": item1_id,
         "stock_name": stock_name,
         "trade_date": next_trade_date_1,
-        "predict_result": result[0][0]
+        "predict_result": int(result[0][0])
     }
     item2_id = str(uuid.uuid4())
     item2 = {
         "id": item2_id,
         "stock_name": stock_name,
         "trade_date": next_trade_date_2,
-        "predict_result": result[0][1]
+        "predict_result": int(result[0][1])
     }
     predict_table.put_item(Item=item1)
     predict_table.put_item(Item=item2)
