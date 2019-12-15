@@ -13,7 +13,7 @@ provider:
     ANSWER_TABLE: ${self:service}-answer-${opt:stage}
     COMPUTE_ANSWER: ${self:service}-${opt:stage}-compute_answer
     SCHEDULED_TRAIN_MODEL: ${self:service}-${opt:stage}-train_gru_model
-    GRU_PREDICT_TABLE: ${self:service}-gru-predict-${opt:stage}
+    GRU_PREDICT_TABLE: ${self:service}-gru-predict-result-${opt:stage}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -206,4 +206,4 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-        TableName: ${self:service}-gru-predict-${opt:stage}
+        TableName: ${self:service}-gru-predict-result-${opt:stage}
