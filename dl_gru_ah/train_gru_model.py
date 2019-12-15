@@ -9,6 +9,7 @@ import pandas as pd
 import numpy as np
 import uuid
 from datetime import date, datetime, timedelta
+from boto3.dynamodb.conditions import Key
 import os
 
 dynamodb = boto3.resource('dynamodb')
@@ -23,11 +24,29 @@ EVALUATION_INTERVAL = 200
 end_date = date.today().strftime("%Y%m%d")
 start_date = datetime.now() - timedelta(days=700)
 start_date = start_date.strftime("%Y%m%d")
+predict_table = dynamodb.Table(os.environ['GRU_PREDICT_TABLE'])
 
 
 def train_gru_model(event, context):
+    current_date = datetime.now() + timedelta(days=1)
+    current_date = current_date.strftime("%Y%m%d")
+    next_week = datetime.now() + timedelta(days=7)
+    next_week = next_week.strftime("%Y%m%d")
+    cal = pro.query('trade_cal', start_date=current_date, end_date=next_week)
+    cal = pd.DataFrame(cal)
+    cal = cal[cal.is_open == 1]
+    next_trade_date_1 = cal.iloc[0]['cal_date']
+    next_trade_date_2 = cal.iloc[1]['cal_date']
+
     stock_name = event['stock_name']
     stock_data = pro.daily(ts_code=stock_name, start_date=start_date, end_date=end_date)
+
+    response = predict_table.query(KeyConditionExpression=Key('stock_name').eq(stock_name))
+    items = response['Items']
+    for i in range(len(items)):
+        if items['trade_date'] == next_trade_date_2:
+            print("already predicted")
+            return
 
     # prepare dataset
     # 开高低收和成交量、涨跌值、振幅、均价、换手率
@@ -119,17 +138,6 @@ def train_gru_model(event, context):
     result[result < 0.5] = 0
 
     # query trade calendar
-    current_date = datetime.now() + timedelta(days=1)
-    current_date = current_date.strftime("%Y%m%d")
-    next_week = datetime.now() + timedelta(days=7)
-    next_week = next_week.strftime("%Y%m%d")
-    cal = pro.query('trade_cal', start_date=current_date, end_date=next_week)
-    cal = pd.DataFrame(cal)
-    cal = cal[cal.is_open == 1]
-    next_trade_date_1 = cal.iloc[0]['cal_date']
-    next_trade_date_2 = cal.iloc[1]['cal_date']
-
-    predict_table = dynamodb.Table(os.environ['GRU_PREDICT_TABLE'])
     item1_id = str(uuid.uuid4())
     item1 = {
         "id": item1_id,

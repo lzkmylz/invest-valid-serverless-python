@@ -78,7 +78,7 @@ custom:
 functions:
   scheduled_train_model:
     handler: scheduled_train_model.scheduled_train_model
-    module: dl_gru_ah
+    module: dl_gru_scheduled
     events:
       - http:
           path: robot/test_train_model
