@@ -192,8 +192,17 @@ resources:
         KeySchema:
           - AttributeName: id
             KeyType: HASH
-          - AttributeName: stock_name
-            KeyType: RANGE
+        GlobalSecondaryIndexes:
+          - IndexName: stockName
+            KeySchema:
+              - AttributeName: stock_name
+                KeyType: HASH
+            Projection:
+              NonKeyAttributes:
+                - id
+                - trade_date
+                - predict_result
+              ProjectionType: INCLUDE
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
