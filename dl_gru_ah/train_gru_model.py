@@ -37,6 +37,8 @@ def train_gru_model(event, context):
     cal = cal[cal.is_open == 1]
     next_trade_date_1 = cal.iloc[0]['cal_date']
     next_trade_date_2 = cal.iloc[1]['cal_date']
+    update_next_day_1 = True
+    update_next_day_2 = True
 
     stock_name = event['stock_name']
     stock_data = pro.daily(ts_code=stock_name, start_date=start_date, end_date=end_date)
@@ -44,8 +46,11 @@ def train_gru_model(event, context):
     response = predict_table.query(IndexName="stockName", KeyConditionExpression=Key('stock_name').eq(stock_name))
     items = response['Items']
     for i in range(len(items)):
+        if items[i]['trade_date'] == next_trade_date_1:
+            update_next_day_1 = False
+            print("Skip update next 1 trade day predict.")
         if items[i]['trade_date'] == next_trade_date_2:
-            print("already predicted")
+            print("Already predicted, skip training model and predict.")
             return
 
     # prepare dataset
@@ -138,19 +143,21 @@ def train_gru_model(event, context):
     result[result < 0.5] = 0
 
     # query trade calendar
-    item1_id = str(uuid.uuid4())
-    item1 = {
-        "id": item1_id,
-        "stock_name": stock_name,
-        "trade_date": next_trade_date_1,
-        "predict_result": int(result[0][0])
-    }
-    item2_id = str(uuid.uuid4())
-    item2 = {
-        "id": item2_id,
-        "stock_name": stock_name,
-        "trade_date": next_trade_date_2,
-        "predict_result": int(result[0][1])
-    }
-    predict_table.put_item(Item=item1)
-    predict_table.put_item(Item=item2)
+    if update_next_day_1:
+        item1_id = str(uuid.uuid4())
+        item1 = {
+            "id": item1_id,
+            "stock_name": stock_name,
+            "trade_date": next_trade_date_1,
+            "predict_result": int(result[0][0])
+        }
+        predict_table.put_item(Item=item1)
+    if update_next_day_2:
+        item2_id = str(uuid.uuid4())
+        item2 = {
+            "id": item2_id,
+            "stock_name": stock_name,
+            "trade_date": next_trade_date_2,
+            "predict_result": int(result[0][1])
+        }
+        predict_table.put_item(Item=item2)
