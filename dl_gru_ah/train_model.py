@@ -2,6 +2,7 @@ from __future__ import absolute_import
 import tushare as ts
 import pandas as pd
 import tensorflow as tf
+import numpy as np
 import boto3
 from datetime import date, datetime, timedelta
 import os
@@ -102,3 +103,32 @@ model_history = model.fit(train_data_single, epochs=EPOCHS,
 current_path = os.getcwd()
 model.save(current_path + "/model.h5", include_optimizer=False)
 s3.meta.client.upload_file(current_path + "/model.h5", 'wyqdatabase', 'model.h5')
+
+predict_data = []
+for i in range(backword_length):
+    predict_row = stock_data_A_frame.iloc[len(stock_data_A_frame) - backword_length + i]
+    predict_row_data = [
+        (predict_row['open'] - open_mean) / open_std,
+        (predict_row['high'] - high_mean) / high_std,
+        (predict_row['low'] - low_mean) / low_std,
+        (predict_row['close'] - close_mean) / close_std,
+        (predict_row['vol'] - vol_mean) / vol_std,
+        (predict_row['change'] - change_mean) / change_std,
+        (predict_row['pct_chg'] - pct_chg_mean) / pct_chg_std,
+        (predict_row['amount'] - amount_mean) / amount_std
+    ]
+    predict_data.append(predict_row_data)
+predict_data = np.array(predict_data)
+predict_data = np.expand_dims(predict_data, axis=0)
+result = model.predict(predict_data)
+result[result >= 0.5] = 1
+result[result < 0.5] = 0
+
+current_date = datetime.now() + timedelta(days=1)
+current_date = current_date.strftime("%Y%m%d")
+next_week = datetime.now() + timedelta(days=7)
+next_week = next_week.strftime("%Y%m%d")
+cal = pro.query('trade_cal', start_date=current_date, end_date=next_week)
+cal = pd.DataFrame(cal)
+cal = cal[cal.is_open == 1]
+next_trade_date = cal.iloc[0]['cal_date']

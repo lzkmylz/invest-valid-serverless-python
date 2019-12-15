@@ -12,6 +12,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from boto3.dynamodb.conditions import Key
 dynamodb = boto3.resource('dynamodb')
 
+
 def compute_answer(event, context):
     data = event
 

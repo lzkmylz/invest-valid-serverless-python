@@ -13,6 +13,7 @@ provider:
     ANSWER_TABLE: ${self:service}-answer-${opt:stage}
     COMPUTE_ANSWER: ${self:service}-${opt:stage}-compute_answer
     SCHEDULED_TRAIN_MODEL: ${self:service}-${opt:stage}-scheduled_train_model
+    GRU_PREDICT_TABLE: ${self:service}-gru-predict-${opt:stage}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -36,6 +37,15 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ANSWER_TABLE}"
+    - Effect: Allow
+        Action:
+          - dynamodb:Query
+          - dynamodb:Scan
+          - dynamodb:GetItem
+          - dynamodb:PutItem
+          - dynamodb:UpdateItem
+          - dynamodb:DeleteItem
+        Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.GRU_PREDICT_TABLE}"
 
 plugins:
   - serverless-offline
@@ -70,10 +80,21 @@ functions:
     handler: scheduled_train_model.scheduled_train_model
     module: dl_gru_ah
     events:
-      - schedule: rate(1 day)
+      - http:
+          path: robot/test_train_model
+          method: get
+          cors:
+            origin: '*'
+            headers: ${self:custom.allowedHeaders}
+
   train_gru_model:
     handler: train_gru_model.train_gru_model
     module: dl_gru_ah
+    environment:
+      TUSHARE_TOKEN: ${env:TUSHARE_TOKEN}
+    memorySize: 3008
+    timeout: 3000
+
   similarity_compute:
     handler: similarity_compute.similarity_compute
     module: statistics
@@ -159,3 +180,21 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:service}-answer-${opt:stage}
+    GRUPredictDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: stock_name
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+          - AttributeName: stock_name
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:service}-gru-predict-${opt:stage}
