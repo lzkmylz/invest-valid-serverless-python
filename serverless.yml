@@ -85,12 +85,7 @@ functions:
     handler: scheduled_train_model.scheduled_train_model
     module: dl_gru_scheduled
     events:
-      - http:
-          path: robot/test_train_model
-          method: get
-          cors:
-            origin: '*'
-            headers: ${self:custom.allowedHeaders}
+      - schedule: rate(1 day)
 
   train_gru_model:
     handler: train_gru_model.train_gru_model
@@ -144,7 +139,12 @@ functions:
     handler: query_answer.query_answer
     module: robot_query_answer
     events:
-      - schedule: rate(1 day)
+      - http:
+          path: robot/query_answer
+          method: post
+          cors:
+            origin: '*'
+            headers: ${self:custom.allowedHeaders}
 
 resources:
   Resources:
