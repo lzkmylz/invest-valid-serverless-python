@@ -87,7 +87,7 @@ functions:
     module: stock_data
     events:
       - http:
-          path: statistics/similarity_compute
+          path: stock_data/get_index_data
           method: post
           cors:
             origin: '*'
