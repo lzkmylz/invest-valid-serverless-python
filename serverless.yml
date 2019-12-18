@@ -56,6 +56,7 @@ plugins:
   - serverless-offline
   - serverless-python-requirements
   - serverless-dynamodb-ttl
+  - serverless-offline-scheduler
 
 package:
   individually: true
@@ -85,7 +86,7 @@ functions:
     handler: scheduled_train_model.scheduled_train_model
     module: dl_gru_scheduled
     events:
-      - schedule: rate(1 day)
+      - schedule: rate(1 hour)
 
   train_gru_model:
     handler: train_gru_model.train_gru_model

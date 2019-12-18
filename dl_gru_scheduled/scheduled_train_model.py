@@ -12,6 +12,7 @@ aws_lambda = boto3.client('lambda')
 def scheduled_train_model(event, context):
     stock_list = ["601939.SH"]
 
+    '''
     for i in range(len(stock_list)):
         payload = json.dumps({
             "stock_name": stock_list[i]
@@ -21,15 +22,6 @@ def scheduled_train_model(event, context):
             Payload=payload,
             InvocationType='Event'
         )
+    '''
+    print("triggered")
 
-    res = {
-        "statusCode": 200,
-        "body": json.dumps({
-            "message": "start train all models."
-        }),
-        "headers": {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Credentials": "true"
-        }
-    }
-    return res

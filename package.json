@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "serverless-dynamodb-ttl": "^0.1.1"
+    "serverless-dynamodb-ttl": "^0.1.1",
+    "serverless-offline-scheduler": "^0.3.8"
   },
   "devDependencies": {
     "serverless": "1.57.0",
