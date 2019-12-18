@@ -82,6 +82,16 @@ custom:
     - Access-Control-Allow-Origin
 
 functions:
+  get_index_data:
+    handler: get_index_data.get_index_data
+    module: stock_data
+    events:
+      - http:
+          path: statistics/similarity_compute
+          method: post
+          cors:
+            origin: '*'
+            headers: ${self:custom.allowedHeaders}
   scheduled_train_model:
     handler: scheduled_train_model.scheduled_train_model
     module: dl_gru_scheduled
