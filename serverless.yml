@@ -86,7 +86,7 @@ functions:
     handler: scheduled_train_model.scheduled_train_model
     module: dl_gru_scheduled
     events:
-      - schedule: rate(1 hour)
+      - schedule: rate(6 hours)
 
   train_gru_model:
     handler: train_gru_model.train_gru_model
