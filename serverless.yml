@@ -13,6 +13,7 @@ provider:
     ANSWER_TABLE: ${self:service}-answer-${opt:stage}
     COMPUTE_ANSWER: ${self:service}-${opt:stage}-compute_answer
     SCHEDULED_TRAIN_MODEL: ${self:service}-${opt:stage}-train_gru_model
+    SCHEDULED_TRAIN_INDEX_MODEL: ${self:service}-${opt:stage}-dl_gru_SH_index
     GRU_PREDICT_TABLE: ${self:service}-gru-predict-result-${opt:stage}
   iamRoleStatements:
     - Effect: Allow
@@ -87,6 +88,14 @@ functions:
     module: dl_gru_scheduled
     events:
       - schedule: rate(6 hours)
+
+  dl_gru_SH_index:
+    handler: dl_gru_SH_index
+    module: dl_gru_SH_index
+    environment:
+      TUSHARE_TOKEN: ${env:TUSHARE_TOKEN}
+    memorySize: 3008
+    timeout: 900
 
   train_gru_model:
     handler: train_gru_model.train_gru_model
