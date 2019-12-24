@@ -40,7 +40,7 @@ def dl_gru_SH_index(event, context):
     update_next_day_1 = True
     update_next_day_2 = True
 
-    stock_name = "399300.SZ"
+    stock_name = "000001.SH"
     stock_data = pro.index_daily(ts_code=stock_name, start_date=start_date, end_date=end_date)
 
     response = predict_table.query(IndexName="stockName", KeyConditionExpression=Key('stock_name').eq(stock_name))
