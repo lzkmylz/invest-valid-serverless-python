@@ -9,7 +9,7 @@ import pandas as pd
 import numpy as np
 import uuid
 from datetime import date, datetime, timedelta
-from boto3.dynamodb.conditions import Key
+from boto3.dynamodb.conditions import Key, Attr
 import os
 
 dynamodb = boto3.resource('dynamodb')
@@ -43,15 +43,16 @@ def train_gru_model(event, context):
     stock_name = event['stock_name']
     stock_data = pro.daily(ts_code=stock_name, start_date=start_date, end_date=end_date)
 
-    response = predict_table.query(IndexName="stockName", KeyConditionExpression=Key('stock_name').eq(stock_name))
+    response = predict_table.scan(IndexName="stockName",
+                                  FilterExpression=Key('stock_name').eq(stock_name) & Attr("trade_date").is_in(
+                                      [next_trade_date_1, next_trade_date_2]))
     items = response['Items']
-    for i in range(len(items)):
-        if items[i]['trade_date'] == next_trade_date_1:
-            update_next_day_1 = False
-            print("Skip update next 1 trade day predict.")
-        if items[i]['trade_date'] == next_trade_date_2:
-            print("Already predicted, skip training model and predict.")
-            return
+    if len(items) > 1:
+        print("Already predicted, skip training model and predict.")
+        return
+    if len(items) == 1:
+        update_next_day_1 = False
+        print("Skip update next 1 trade day predict.")
 
     # prepare dataset
     # 开高低收和成交量、涨跌值、振幅、均价、换手率
