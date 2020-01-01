@@ -12,7 +12,6 @@ aws_lambda = boto3.client('lambda')
 def scheduled_train_model(event, context):
     stock_list = ["601939.SH", "600276.SH", "600340.SH"]
 
-
     for i in range(len(stock_list)):
         payload = json.dumps({
             "stock_name": stock_list[i]
@@ -24,7 +23,7 @@ def scheduled_train_model(event, context):
         )
 
     aws_lambda.invoke(
-        functionName=os.environ[''],
+        functionName=os.environ['SCHEDULED_TRAIN_INDEX_MODEL'],
         InvocationType='Event'
     )
 
