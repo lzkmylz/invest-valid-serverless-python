@@ -118,6 +118,19 @@ functions:
             origin: '*'
             headers: ${self:custom.allowedHeaders}
 
+  rsrs_compute:
+    handler: rsrs_compute.rsrs_compute
+    module: statistics
+    environment:
+      TUSHARE_TOKEN: ${env:TUSHARE_TOKEN}
+    events:
+      - http:
+          path: statistics/rsrs_compute
+          method: post
+          cors:
+            origin: '*'
+            headers: ${self:custom.allowedHeaders}
+
   add_corpora:
     handler: add_corpora.add_corpora
     module: robot_corporaCURD
