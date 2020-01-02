@@ -107,12 +107,25 @@ functions:
 
   similarity_compute:
     handler: similarity_compute.similarity_compute
-    module: statistics
+    module: similarity_compute
     environment:
       TUSHARE_TOKEN: ${env:TUSHARE_TOKEN}
     events:
       - http:
           path: statistics/similarity_compute
+          method: post
+          cors:
+            origin: '*'
+            headers: ${self:custom.allowedHeaders}
+
+  rsrs_compute:
+    handler: rsrs_compute.rsrs_compute
+    module: rsrs_compute
+    environment:
+      TUSHARE_TOKEN: ${env:TUSHARE_TOKEN}
+    events:
+      - http:
+          path: statistics/rsrs_compute
           method: post
           cors:
             origin: '*'
