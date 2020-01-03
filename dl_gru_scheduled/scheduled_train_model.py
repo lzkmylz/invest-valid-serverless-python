@@ -10,7 +10,7 @@ aws_lambda = boto3.client('lambda')
 
 
 def scheduled_train_model(event, context):
-    stock_list = ["601939.SH", "600276.SH", "600340.SH"]
+    stock_list = ["601939.SH", "600276.SH", "600340.SH", "000415.SZ"]
 
     for i in range(len(stock_list)):
         payload = json.dumps({
