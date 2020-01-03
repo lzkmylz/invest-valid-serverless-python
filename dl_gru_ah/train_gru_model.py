@@ -43,9 +43,7 @@ def train_gru_model(event, context):
     stock_name = event['stock_name']
     stock_data = pro.daily(ts_code=stock_name, start_date=start_date, end_date=end_date)
 
-    response = predict_table.scan(IndexName="stockName",
-                                  FilterExpression=Key('stock_name').eq(stock_name) & Attr("trade_date").is_in(
-                                      [next_trade_date_1, next_trade_date_2]))
+    response = predict_table.scan(IndexName="stockName", FilterExpression=Key('stock_name').eq(stock_name) & (Attr("trade_date").eq(next_trade_date_1) | Attr("trade_date").eq(next_trade_date_2)))
     items = response['Items']
     if len(items) > 1:
         print("Already predicted, skip training model and predict.")
