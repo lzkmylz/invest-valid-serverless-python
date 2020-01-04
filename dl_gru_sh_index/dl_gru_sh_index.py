@@ -27,7 +27,7 @@ start_date = start_date.strftime("%Y%m%d")
 predict_table = dynamodb.Table(os.environ['GRU_PREDICT_TABLE'])
 
 
-def dl_gru_SH_index(event, context):
+def dl_gru_sh_index(event, context):
     current_date = datetime.now() + timedelta(days=1)
     current_date = current_date.strftime("%Y%m%d")
     next_week = datetime.now() + timedelta(days=7)

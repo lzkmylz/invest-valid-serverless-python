@@ -22,11 +22,9 @@ def scheduled_train_model(event, context):
             InvocationType='Event'
         )
 
-
-'''
     aws_lambda.invoke(
         FunctionName=os.environ['SCHEDULED_TRAIN_INDEX_MODEL'],
         InvocationType='Event'
     )
-'''
+
 
