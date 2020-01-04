@@ -96,6 +96,13 @@ functions:
       TUSHARE_TOKEN: ${env:TUSHARE_TOKEN}
     memorySize: 3008
     timeout: 900
+    events:
+      - http:
+          path: test/dl_gru_sh_index
+          method: get
+          cors:
+            origin: '*'
+            headers: ${self:custom.allowedHeaders}
 
   train_gru_model:
     handler: train_gru_model.train_gru_model
