@@ -1,4 +1,4 @@
-lxml==4.4.1
+lxml==4.6.3
 requests==2.22.0
 beautifulsoup4==4.8.1
 tensorflow==1.13.1
