@@ -5,5 +5,5 @@ numpy==1.17.4
 requests==2.22.0
 beautifulsoup4==4.8.1
 tushare==1.2.48
-tensorflow==1.13.1
+tensorflow==2.5.1
 pandas==0.25.3
