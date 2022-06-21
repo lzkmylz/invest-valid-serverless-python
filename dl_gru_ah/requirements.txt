@@ -1,7 +1,7 @@
 lxml==4.4.1
 requests==2.22.0
 boto3==1.10.32
-numpy==1.17.4
+numpy==1.22.0
 requests==2.22.0
 beautifulsoup4==4.8.1
 tushare==1.2.48
