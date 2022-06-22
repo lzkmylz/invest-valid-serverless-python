@@ -3,4 +3,4 @@ tushare==1.2.48
 lxml==4.4.1
 requests==2.22.0
 beautifulsoup4==4.8.1
-numpy==1.17.4
+numpy==1.22.0
